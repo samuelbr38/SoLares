@@ -1,0 +1,119 @@
+body {
+    background-image:url("fundo.png"); 
+    background-size: cover; 
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+
+}
+
+.container {
+    background-color: #1a315b;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+h1 {
+    margin-bottom: 2%;
+    color: #ffffff;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 85%;
+    padding: 8px;
+    margin: 8px 0;
+    border: none;
+    background-color: #ffffff;
+    border: 1px solid #0b1bff;
+    color: #000000;
+    border-radius: 10px;
+}
+
+button {    
+    background-color: #f47c21;
+    color: #ffffff;
+    padding: 10px 41%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;        
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #f47c21;
+}
+
+.checkbox {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.checkbox input {
+    margin-right: 12px;
+    color: #ffffff; 
+}
+
+.checkbox label {
+    color: #ffffff; 
+}
+
+.footer {
+    position: absolute;
+    bottom: 01px;
+    color: #fff;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: -55px;
+}
+
+.logo img {
+    width: 250px;
+    height: auto;
+}
+
+.opcoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.link-color {
+    color: #f47c21;
+    text-decoration: none;
+}
+
+.link-color:hover {
+    color: #ff0000;
+}
+
+.footer {
+    text-align: center;
+  }
+
+  a {
+    text-decoration: none;
+    color: #f47c21; 
+  }
+  
+  a:hover {
+    color: #ff0000; 
+  }
+  
+  .footer img {
+    width: 200px; 
+    height: 100px; 
+    object-fit: cover; 
+  }
