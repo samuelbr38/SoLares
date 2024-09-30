@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SoLares - Recuperar Senha</title>
+    <link rel="stylesheet" type="text/css" href="recuperar.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Recuperação de senha  </h1>
+        <p>Insira o e-mail da conta:</p>
+        <input type="text" id="email" placeholder="ex: exemplo@gmail.com">
+        <button id="submit" onclick="validarEmail()">Enviar</button>
+        <p id="error-message"></p>
+        <a href="#" class="link-color" onclick="voltar()">Voltar Para Tela Anterior</a>
+</div>
+    </div>
+    </div>
+
+    <div class="footer">
+        <img src="img/logo-solares.png" alt="SOLARES: Inovação em Tecnologia" style="float: right;">
+    </div>
+
+    <script>
+        function validarEmail() {
+            const email = document.getElementById('email').value;
+            const dominiosValidos = [/@gmail\.com$/, /@gmail\.com\.br$/, /@outlook\.com$/, /@outlook\.com\.br$/];
+
+            let ehValido = false;
+            for (const dominio of dominiosValidos) {
+                if (dominio.test(email)) {
+                    ehValido = true;
+                    break;
+                }
+            }
+
+            if (ehValido) {
+                document.getElementById('error-message').innerHTML = '';
+            } else {
+                document.getElementById('error-message').innerHTML = 'E-mail inválido. Por favor, use um domínio valido.';
+            }
+        }
+
+        
+    </script>
+
+<script>
+    function voltar() {
+        window.location.href = "login.html";
+    }
+</script>
+
+
+<style>
+    a {
+      text-decoration: none;
+      color: #f47c21; 
+    }
+    a:hover {
+      color: #ff0000; 
+    }
+    .footer img {
+      width: 290px; 
+      height: 200px; 
+      object-fit: cover; 
+    }
+  </style>
+</body>
+</html>
