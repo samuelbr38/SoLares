@@ -1,0 +1,4 @@
+.background-degrade {
+    height: 100vh; /* Ajuste a altura conforme necessário */
+    background: linear-gradient(to bottom, blue, purple, black);
+}
