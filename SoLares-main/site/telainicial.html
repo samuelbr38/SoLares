@@ -5,271 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SoLares - Paineis Fotovoltaicos</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-
-        :root {
-            --primary-color: #0073b6;
-            --secondary-color: #044b74;
-            --background-color: #f5f5f5;
-            --text-color: #333;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-               font-size: 29px;
-                position: absolute; 
-                top: 10px; 
-                left: 50px; 
-        }
-
-
-        nav ul {
-            display: flex;
-            list-style-type: none;
-        }
-
-        nav ul li {
-            margin-left: 20px;
-        }
-
-        nav ul li a {
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover { 
-            color: var(--secondary-color);
-        }
-
-        main {
-            margin-top: 0px;
-            padding: 0px 0;
-        }
-
-        .hero {
-            background-image: url('img/investimento.jpg');
-            background-size: cover;
-            background-position: center;
-            height:1090px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: #fff;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 23;
-        }
-
-        .hero h1 {
-            font-size: 49px;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 24px;
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary-color);
-            color: #fff;
-            padding: 12px 24px;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #014974;
-        }
-
-        section {
-            padding: 60px 0;
-        }
-
-        section h2 {
-            font-size: 36px;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .products {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
-        .product-card {
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 30px;
-            width: calc(33.333% - 20px);
-            transition: transform 0.3s ease;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 15px;
-        }
-
-        .product-card h3 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-
-        .product-card p {
-            margin-bottom: 15px;
-        }
-
-        form {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        form label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-
-        form input,
-        form textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        form button {
-            background-color: var(--primary-color);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        form button:hover {
-            background-color: #0073b6;
-        }
-
-        footer {
-            background-color: var(--primary-color);
-            color: #fff;
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .social-icons {
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            color: #fff;
-            font-size: 24px;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
-
-        .social-icons a:hover {
-            color: var(--secondary-color);
-        }
-
-        @media (max-width: 768px) {
-            .product-card {
-                width: 100%;
-            }
-
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            nav ul li {
-                margin: 10px 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="telainicial.css">
 </head>
 <body>
     <header>
         <div class="container header-content">
             <h1 class="logo"> SoLares</h1>
             <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">Quem Somos?</a></li>
-                    <li><a href="#products">Produtos</a></li>
-                    <li><a href="#contact">Contato</a></li>
-                    <li><a href="#" onclick="redirectPage()">Entrar</a></li>
-                    <li><a href="#" onclick="createAccount()">Criar Conta</a></li>
-                </ul>
+                <ul id="nav-menu"></ul>
             </nav>
         </div>
     </header>
@@ -292,7 +35,6 @@
             <h2>Nossos Produtos</h2>
             <div class="products">
                 <div class="product-card">
-                    
                     <h3>Painel Solar Residencial</h3>
                     <p>Solução ideal para residências, reduzindo custos de energia e aumentando a eficiência energética.</p>
                     <a href="#" onclick="error()" class="btn">Saiba Mais</a>
@@ -304,7 +46,7 @@
                 </div>
                 <div class="product-card">
                     <h3>Sistema de Parceria</h3>
-                    <p>Economize até 90% da conta de luz mensal e reduza significativamente os gastos com energia elétrica, dividindo o custo dos painéis solares com o nosso sistema de parceria inovador e acessível..</p>
+                    <p>Economize até 90% da conta de luz mensal e reduza significativamente os gastos com energia elétrica, dividindo o custo dos painéis solares com o nosso sistema de parceria inovador e acessível.</p>
                     <a href="#" onclick="error()" class="btn">Saiba Mais</a>
                 </div>
             </div>
@@ -331,7 +73,7 @@
         <div class="container">
             <p>&copy; 2024 SoLares. Todos os direitos reservados.</p>
             <div class="social-icons">
-                <a href="#"  onclick="Samuelgithubbr38()" target="_blank"><i class="fab fa fa-github"></i></a>
+                <a href="#" onclick="Samuelgithubbr38()" target="_blank"><i class="fab fa fa-github"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
                 <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
@@ -340,6 +82,32 @@
     </footer>
 
     <script>
+        const menuItems = [
+            { text: "Home", href: "#home" },
+            { text: "Quem Somos?", href: "#about" },
+            { text: "Produtos", href: "#products" },
+            { text: "Contato", href: "#contact" },
+            { text: "Entrar", href: "#", onclick: "redirectPage()" },
+            { text: "Criar Conta", href: "#", onclick: "createAccount()" }
+        ];
+
+        function createMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            menuItems.forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = item.text;
+                a.href = item.href || '#';
+                if (item.onclick) {
+                    a.onclick = () => eval(item.onclick);
+                }
+                li.appendChild(a);
+                navMenu.appendChild(li);
+            });
+        }
+
+        createMenu();
+
         function redirectPage() {
             window.location.href = "login.html";
         }
@@ -352,14 +120,13 @@
             window.location.href = "Error.html";
         }
 
-        function Samuelgithubbr38() {
-            window.open("https://github.com/samuelbr38/SoLares", "_blank");
-        }
+            function Samuelgithubbr38() {
+                window.open("https://github.com/samuelbr38/SoLares", "_blank");
+            }
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
