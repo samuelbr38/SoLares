@@ -15,7 +15,7 @@
         <form action="#">
             <input type="text" placeholder="E-mail" required>
             <input type="password" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
+            <button type="submit" onclick="testehtml()">Entrar</button>
             <div class="remember-me">
                 <input type="checkbox" id="remember">  
                 <label for="remember">Lembrar</label>
@@ -35,6 +35,12 @@
         }
     </script>
 
+<script>
+    function testehtml() {
+        window.location.href = "teste.html";
+    }
+</script>
+    
 <script>
     function redirecionar() {
         window.location.href = "criarconta.html";
