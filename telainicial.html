@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoLares - Paineis Fotovoltaicos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="telainicial.css">
+    <link rel="stylesheet" href="  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');"
+</head>
+
+
+<body>
+    <header>
+        <div class="container header-content">
+            <h1 class="logo"> SoLares</h1>
+            <nav>
+                <ul id="nav-menu"></ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1>Energia Solar para um Futuro Brilhante</h1>
+                <p>Soluções sustentáveis para sua casa e negócio</p>
+                <a href="#contact" class="btn">Solicite um Orçamento</a>
+            </div>
+        </section>
+
+        <section id="about" class="container">
+            <h2>Quem Somos?</h2>
+            <p>A SoLares é uma empresa líder em soluções de energia solar, dedicada a fornecer tecnologia de ponta em painéis fotovoltaicos. Nossa missão é tornar a energia limpa e renovável acessível a todos, contribuindo para um planeta mais sustentável.</p>
+        </section>
+
+        <br>
+        <div class="video-container">
+            <iframe width="560" height="315" src="?" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+
+        <br>
+
+        <section id="products" class="container">
+            <h2>Nossos Produtos</h2>
+            <div class="products">
+                <div class="product-card">
+                    <i class="fas fa-home"></i>
+                    <h3>Painel Solar Residencial</h3>
+                    <li>Economia de até 95% na conta de luz</li>
+                    <li>Instalação rápida e sem complicações</li>
+                    <li>Monitoramento pelo celular</li>
+                    <li>Manutenção mínima</li>
+                    <br>
+                    <a href="#" onclick="error()" class="btn">Saiba Mais</a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-building"></i>
+                    <h3>Sistema Comercial</h3>
+                    <li>Redução significativa nos custos operacionais</li>
+                    <li>Projetos personalizados</li>
+                    <li>Suporte técnico especializado</li>
+                    <li>Retorno do investimento em até 5 anos</li>
+                    <br>
+                    <a href="#" onclick="error()" class="btn">Saiba Mais</a>
+                </div>
+                <div class="product-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>Sistema de Parceria</h3>
+                    <li>Treinamento completo</li>
+                    <li>Suporte de marketing</li>
+                    <li>Comissões atrativas</li>
+                    <li>Acesso a produtos exclusivos</li>
+                    <br>
+                    <a href="#" onclick="error()" class="btn">Saiba Mais</a>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="contact" class="container">
+            <h2>Entre em Contato</h2>
+            <form id="contact-form">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Mensagem:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+    <br>
+    <br>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 SoLares. Todos os direitos reservados.</p>
+            <div class="social-icons">
+                <a href="#" onclick="Samuelgithubbr38()" target="_blank"><i class="fab fa fa-github"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const menuItems = [
+            { text: "Home", href: "#home" },
+            { text: "Quem Somos?", href: "#about" },
+            { text: "Produtos", href: "#products" },
+            { text: "Contato", href: "#contact" },
+            { text: "Entrar", href: "#", onclick: "redirectPage()" },
+            { text: "Criar Conta", href: "#", onclick: "createAccount()" }
+        ];
+
+        function createMenu() {
+            const navMenu = document.getElementById('nav-menu');
+            menuItems.forEach(item => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = item.text;
+                a.href = item.href || '#';
+                if (item.onclick) {
+                    a.onclick = () => eval(item.onclick);
+                }
+                li.appendChild(a);
+                navMenu.appendChild(li);
+            });
+        }
+
+        createMenu();
+
+        function redirectPage() {
+            window.location.href = "login.html";
+        }
+
+        function createAccount() {
+            window.location.href = "criarconta.html";
+        }
+
+        function error() {
+            window.location.href = "Error.html";
+        }
+
+            function Samuelgithubbr38() {
+                window.open("https://github.com/samuelbr38/SoLares", "_blank");
+            }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Obrigado por entrar em contato! Retornaremos em breve.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
