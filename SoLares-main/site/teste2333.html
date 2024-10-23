@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .carousel {
+      display: flex;
+      transition: transform 0.3s ease-out;
+      cursor: grab;
+    }
+
+    .carousel.grabbing {
+      cursor: grabbing;
+    }
+
+    .member-card {
+      min-width: 100%;
+      padding: 20px;
+      text-align: center;
+      user-select: none;
+    }
+
+    .member-image {
+      width: 250px;
+      height: 250px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .member-name {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .member-role {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .dots {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="carousel">
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 1" class="member-image">
+        <h2 class="member-name">João Silva</h2>
+        <p class="member-role">CEO</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 2" class="member-image">
+        <h2 class="member-name">Maria Santos</h2>
+        <p class="member-role">Diretora de Marketing</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 3" class="member-image">
+        <h2 class="member-name">Pedro Costa</h2>
+        <p class="member-role">Desenvolvedor Senior</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 4" class="member-image">
+        <h2 class="member-name">Ana Oliveira</h2>
+        <p class="member-role">Diretora Financeira</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 5" class="member-image">
+        <h2 class="member-name">Lucas Ferreira</h2>
+        <p class="member-role">Gerente de Projetos</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 6" class="member-image">
+        <h2 class="member-name">Carla Mendes</h2>
+        <p class="member-role">Designer UX/UI</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 7" class="member-image">
+        <h2 class="member-name">Roberto Alves</h2>
+        <p class="member-role">Arquiteto de Software</p>
+      </div>
+      <div class="member-card">
+        <img src="/api/placeholder/250/250" alt="Membro 8" class="member-image">
+        <h2 class="member-name">Beatriz Lima</h2>
+        <p class="member-role">Analista de Dados</p>
+      </div>
+    </div>
+    <div class="dots"></div>
+  </div>
+
+  <script>
+    const carousel = document.querySelector('.carousel');
+    const cards = document.querySelectorAll('.member-card');
+    const dotsContainer = document.querySelector('.dots');
+    
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let currentIndex = 0;
+    
+    // Criar pontos indicadores
+    cards.forEach((_, index) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+    
+    // Eventos de toque e mouse
+    carousel.addEventListener('mousedown', dragStart);
+    carousel.addEventListener('touchstart', dragStart);
+    carousel.addEventListener('mouseup', dragEnd);
+    carousel.addEventListener('touchend', dragEnd);
+    carousel.addEventListener('mousemove', drag);
+    carousel.addEventListener('touchmove', drag);
+    carousel.addEventListener('mouseleave', dragEnd);
+    
+    function dragStart(event) {
+      event.preventDefault();
+      isDragging = true;
+      startPos = getPositionX(event);
+      carousel.classList.add('grabbing');
+    }
+    
+    function drag(event) {
+      if (isDragging) {
+        const currentPosition = getPositionX(event);
+        const diff = currentPosition - startPos;
+        setSlidePosition(prevTranslate + diff);
+      }
+    }
+    
+    function dragEnd() {
+      isDragging = false;
+      carousel.classList.remove('grabbing');
+      
+      const movedBy = currentTranslate - prevTranslate;
+      
+      if (movedBy < -100 && currentIndex < cards.length - 1) {
+        currentIndex += 1;
+      }
+      if (movedBy > 100 && currentIndex > 0) {
+        currentIndex -= 1;
+      }
+      
+      setPositionByIndex();
+      updateDots();
+    }
+    
+    function getPositionX(event) {
+      return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+    }
+    
+    function setSlidePosition(position) {
+      currentTranslate = position;
+      carousel.style.transform = `translateX(${position}px)`;
+    }
+    
+    function setPositionByIndex() {
+      currentTranslate = currentIndex * -window.innerWidth;
+      prevTranslate = currentTranslate;
+      setSlidePosition(currentTranslate);
+    }
+    
+    function goToSlide(index) {
+      currentIndex = index;
+      setPositionByIndex();
+      updateDots();
+    }
+    
+    function updateDots() {
+      document.querySelectorAll('.dot').forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentIndex);
+      });
+    }
+
+    // Prevenir comportamento padrão de arrastar imagem
+    document.addEventListener('dragstart', (e) => e.preventDefault());
+  </script>
+</body>
+</html>
