@@ -3,253 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SoLares - Paineis Fotovoltaicos</title>
+    <title>Projeto SoLares</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="telainicial.css">
-    <a href="acessonegado.html">About</a>
-     <a href="construcao.html">Contact</a>
-     <link rel="stylesheet" href="  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');"
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="icon" type="image/png" href="img/logosol.png">
 </head>
-
-
 <body>
     <header>
         <div class="container header-content">
-            <li class="logo"> SoLares</li>
+            <div class="logo">SoLares</div>
             <nav>
-                
-               <ul id="nav-menu">  <div class="right-section"> 
-             <a  href="login.html"  class="login-btn">Login</a>
-                
-              </div> </ul> 
-               
+                <ul id="nav-menu">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">Quem Somos</a></li>
+                    <li><a href="#products">Produtos</a></li>
+                    <li><a href="#partners">Parceiros</a></li>
+                    <li><a href="#team">Equipe</a></li>
+                    <li><a href="login.html" class="login-btn">Entrar</a></li>
+                </ul>
             </nav>
-
         </div>
     </header>
 
-    <br>
     <main>
+        <!-- Seção Hero -->
         <section id="home" class="hero">
-            <div class="hero-content">
-                <h1>Energia Solar para um Futuro Brilhante</h1>
-                <p>Soluções sustentáveis para sua casa e negócio</p>
-                <a href="#products" class="btn">Solicite um Orçamento</a>
+            <div class="hero-content" data-aos="fade-up">
+                <h1>Projeto SoLares</h1>
+                <p>Transformando tecnologia em sustentabilidade</p>
+                <a href="#products" class="btn">Explore Nossos Planos</a>
             </div>
         </section>
 
         <br>
-
+        <br>
+        <!-- Seção Sobre Nós -->
         <section id="about" class="container">
-            <h2 class="titulo-principal" >Quem Somos?</h2>
-            <h3>SoLares é um projeto criado na Mostra SESI STEAM que visa integrar placas solares com um sistema de parcerias, promovendo o uso de energia solar e colaboração entre diferentes partes envolvidas.</p>
+            <h2 class="titulo-principal" data-aos="fade-up">Quem Somos?</h2>
+            <div data-aos="fade-up">
+                <p>SoLares é um projeto inovador desenvolvido para a Mostra SESI STEAM, que integra painéis solares a um sistema tecnológico avançado. Sua proposta é incentivar o uso da energia solar, promovendo a sustentabilidade de forma acessível e eficiente.</p>
+            </div>
         </section>
-        
-        <br>
-        <br>
 
-
-        <section id="about" class="container">
-            <h2 class="titulo-principal">Explicação em vídeo</h2>
-            <br>
-            <div class="video-container">
+        <!-- Seção de Vídeo -->
+        <section id="video" class="container">
+            <h2 class="titulo-principal" data-aos="fade-up">Explicação em Vídeo</h2>
+            <div class="video-container" data-aos="zoom-in">
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/_UQTrT9U-J0?si=tNFYPbPJ9GA_PKrV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </section>
-        
-        <br>
-        <br>
-        <br>
 
-        <section class="container">
-            <h2  id = "products" class="titulo-principal">Nossos Produtos</h2>
-            <div class="products">
-                <div class="product-card">
-                    <i class="fas fa-home"></i>
-                    <h3>Painel Solar Residencial</h3>
-                    <li>Economia de até 95% na conta de luz</li>
-                    <li>Instalação rápida e sem complicações</li>
-                    <li>Monitoramento pelo celular</li>
-                    <li>Manutenção mínima</li>
-                    <br>
-                    <a href="#products" onclick="error()" class="btn">Saiba Mais</a>
+        <!-- Seção da Equipe -->
+        <section id="team" class="team-section">
+            <div class="container">
+                <h2 class="titulo-principal" data-aos="fade-up">Nossa Equipe</h2>
+                <div class="team-grid">
+                    <div class="team-card" data-aos="zoom-in">
+                        <img src="img/team1.jpg" alt="Membro da Equipe 1" class="team-photo">
+                        <h3 class="team-name">João Silva</h3>
+                        <p class="team-role">CEO e Fundador</p>
+                        <p class="team-description">Especialista em energia renovável com mais de 10 anos de experiência no setor.</p>
+                    </div>
+                    <div class="team-card" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="img/team2.jpg" alt="Membro da Equipe 2" class="team-photo">
+                        <h3 class="team-name">Maria Oliveira</h3>
+                        <p class="team-role">CTO</p>
+                        <p class="team-description">Engenheira de software com foco em IoT e automação de sistemas solares.</p>
+                    </div>
+                    <div class="team-card" data-aos="zoom-in" data-aos-delay="400">
+                        <img src="img/team3.jpg" alt="Membro da Equipe 3" class="team-photo">
+                        <h3 class="team-name">Carlos Souza</h3>
+                        <p class="team-role">Diretor de Marketing</p>
+                        <p class="team-description">Especialista em estratégias de marketing digital e branding.</p>
+                    </div>
                 </div>
-                <div class="product-card">
+            </div>
+        </section>
+
+        <!-- Seção de Produtos -->
+        <section id="products" class="container">
+            <h2 class="titulo-principal" data-aos="fade-up">Nossos Planos</h2>
+  
+            <div class="products">
+                <div class="product-card" data-aos="zoom-in">
+                    <i class="fas fa-solar-panel"></i>
+                    <h3>Painel Solar Residencial</h3>
+                    <ul>
+                       <li>Alto custo-benefício</li>
+                       <li>Monitoramento e controle remoto</li>
+                       <li>Otimização diaria com IA</li>
+                       <li>Relatórios mensais detalhados</li>
+                    </ul>
+                    <a href="#" onclick="error()" class="btn">Detalhes Técnicos</a>
+                </div>
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="200">
                     <i class="fas fa-building"></i>
                     <h3>Sistema Comercial</h3>
-                    <li>Redução significativa nos custos operacionais</li>
-                    <li>Projetos personalizados</li>
-                    <li>Suporte técnico especializado</li>
-                    <li>Retorno do investimento em até 5 anos</li>
-                    <br>
-                    <a href="#products" onclick="error()" class="btn">Saiba Mais</a>
+                    <ul>
+                        <li>Análise preditiva de consumo</li>
+                        <li>Projetos personalizados</li>
+                        <li>Suporte técnico especializado</li>
+                        <li>Instalação rápida e eficiente</li>
+                    </ul>
+                    <a href="#" onclick="error()" class="btn">Detalhes Técnicos</a>
                 </div>
-                <div class="product-card">
+                <div class="product-card" data-aos="zoom-in" data-aos-delay="400">
                     <i class="fas fa-handshake"></i>
                     <h3>Sistema de Parceria</h3>
-                    <li>Treinamento completo</li>
-                    <li>Suporte de marketing</li>
-                    <li>Comissões atrativas</li>
-                    <li>Acesso a produtos exclusivos</li>
-                    <br>
-                    <a href="#products" onclick="error()" class="btn">Saiba Mais</a>
+                    <ul>
+                        <li>Conecte-se com pessoas com a mesma visão</li>
+                        <li>Preços reduzidos para parceiros</li>
+                        <li>Divisão de custos de forma transparente</li>
+                        <li>Suporte 100% humanizado e personalizados</li>
+                    </ul>
+                    <a href="#" onclick="error()" class="btn">Detalhes Técnicos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Estatísticas -->
+        <section class="stats" aria-labelledby="stats-heading">
+            <div class="container">
+                <h2 id="stats-heading" class="titulo-principal" data-aos="fade-up">Nossos Números Impressionantes</h2>
+                <br>
+                <br>
+                <div class="stats-grid">
+                    <div class="stat-item" data-aos="fade-up">
+                        <div class="stat-icon">
+                            <i class="fas fa-shopping-cart"></i> <!-- Ícone de compras -->
+                        </div>
+                        <h3 class="stat-value">50k+</h3>
+                        <p class="stat-description">Compras Realizadas</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-icon">
+                            <i class="fas fa-solar-panel"></i> <!-- Ícone de painéis solares -->
+                        </div>
+                        <h3 class="stat-value">1000+</h3>
+                        <p class="stat-description">Painéis Solares Instalados</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                        <div class="stat-icon">
+                            <i class="fas fa-handshake"></i> <!-- Ícone de parcerias -->
+                        </div>
+                        <h3 class="stat-value">300+</h3>
+                        <p class="stat-description">Parceiros Estratégicos</p>
+                    </div>
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="600">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i> <!-- Ícone de avaliação -->
+                        </div>
+                        <h3 class="stat-value">4.8</h3>
+                        <p class="stat-description">Avaliação Média</p>
+                    </div>
                 </div>
             </div>
         </section>
 
 
-<section>
 
-    <h2 class="titulo-principal">Recomendações de Celebridades sobre Energia Solar</h2>
-
-    <main class="solar_x456_container">
-        <div class="solar_x456_testimonial_grid">
-            <!-- Elon Musk -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Elon Musk</h3>
-                    <p class="solar_x456_profile_title">CEO da Tesla e SolarCity</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "A energia solar e as baterias domésticas são o futuro. É inevitável. A questão é apenas quanto tempo levará para transformar toda nossa infraestrutura energética."
-                </blockquote>
-            </div>
-
-            <!-- Bill Gates -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Bill Gates</h3>
-                    <p class="solar_x456_profile_title">Cofundador da Microsoft</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "Investir em energia solar é crucial para combater as mudanças climáticas. A tecnologia está mais acessível do que nunca e continua melhorando."
-                </blockquote>
-            </div>
-
-            <!-- Leonardo DiCaprio -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Leonardo DiCaprio</h3>
-                    <p class="solar_x456_profile_title">Ator e Ativista Ambiental</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "A transição para energia solar não é apenas uma escolha, é uma necessidade para preservar nosso planeta para as futuras gerações."
-                </blockquote>
-            </div>
-
-            <!-- Patricia Abravanel -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Patricia Abravanel</h3>
-                    <p class="solar_x456_profile_title">Apresentadora e Empresária</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "Instalar painéis solares em minha casa foi uma das melhores decisões. Além da economia, tenho orgulho de contribuir para um futuro mais sustentável."
-                </blockquote>
-            </div>
-
-            <!-- Jeff Bezos -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Jeff Bezos</h3>
-                    <p class="solar_x456_profile_title">Fundador da Amazon</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "A energia solar é um investimento crucial para o futuro sustentável do nosso planeta. É uma tecnologia que continuará a evoluir e se tornar cada vez mais eficiente."
-                </blockquote>
-            </div>
-
-            <!-- Mark Zuckerberg -->
-            <div class="solar_x456_testimonial_card">
-                <div class="solar_x456_profile_info">
-                    <h3 class="solar_x456_profile_name">Mark Zuckerberg</h3>
-                    <p class="solar_x456_profile_title">CEO da Meta</p>
-                </div>
-                <blockquote class="solar_x456_quote_text">
-                    "Implementar painéis solares em nossos data centers foi uma das melhores decisões que tomamos. É uma solução que beneficia tanto o ambiente quanto nossa eficiência operacional."
-                </blockquote>
-            </div>
-        </div>
-    </main>
-</section>
-
-
-<h2 class="titulo-principal">Nossas Avaliações</h2>
-
-<section class="stats">
-    <div class="stats-grid">
-        <div class="stat-item">
-            <h3>50k+</h3>
-            <p>Compras</p>
-        </div>
-        <div class="stat-item">
-            <h3>1000+</h3>
-            <p>Paineis Solares</p>
-        </div>
-        <div class="stat-item">
-            <h3>300+</h3>
-            <p>Parceiros</p>
-        </div>
-        <div class="stat-item">
-            <h3>4.8</h3>
-            <p>Avaliação Média</p>
-        </div>
-    </div>
-</section>
-
-           <section class="parceiros-section">
+        <!-- Seção de Garantias e Certificações -->
+        <section id="guarantees" class="guarantees-section">
             <div class="container">
-                <h2 class="titulo-principal">Nossos Parceiros</h2>
-                
-                <br> 
+                <h2 class="titulo-principal" data-aos="fade-up">Garantias e Certificações</h2>
+                <br>
+                <br>
+                <div class="guarantees-grid">
+                    <div class="guarantee-card" data-aos="zoom-in">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Garantia de 25 Anos</h3>
+                        <p>Nossos painéis solares possuem garantia de desempenho por 25 anos.</p>
+                    </div>
+                    <div class="guarantee-card" data-aos="zoom-in" data-aos-delay="200">
+                        <i class="fas fa-certificate"></i>
+                        <h3>Certificação ISO 9001</h3>
+                        <p>Certificados pela ISO 9001 em gestão de qualidade.</p>
+                    </div>
+                    <div class="guarantee-card" data-aos="zoom-in" data-aos-delay="400">
+                        <i class="fas fa-leaf"></i>
+                        <h3>Sustentabilidade Comprovada</h3>
+                        <p>Redução de até 90% na emissão de carbono.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        
+                <!-- Seção de Recomendações de Celebridades -->
+                <section id="testimonials">
+                    <h2 class="titulo-principal" data-aos="fade-up">Recomendações de Celebridades</h2>
+                    <main class="solar_x456_container">
+                        <div class="solar_x456_testimonial_grid">
+                            <div class="solar_x456_testimonial_card" data-aos="fade-up">
+                                <div class="solar_x456_profile_info">
+                                    <h3 class="solar_x456_profile_name">Elon Musk</h3>
+                                    <p class="solar_x456_profile_title">CEO da Tesla e SolarCity</p>
+                                </div>
+                                <blockquote class="solar_x456_quote_text">
+                                    "A energia solar e as baterias domésticas são o futuro tecnológico. É inevitável transformar nossa infraestrutura energética."
+                                </blockquote>
+                            </div>
+                            <div class="solar_x456_testimonial_card" data-aos="fade-up" data-aos-delay="200">
+                                <div class="solar_x456_profile_info">
+                                    <h3 class="solar_x456_profile_name">Greta Thunberg</h3>
+                                    <p class="solar_x456_profile_title">Ativista Ambiental</p>
+                                </div>
+                                <blockquote class="solar_x456_quote_text">
+                                    "Iniciativas como a SoLares são essenciais para combater as mudanças climáticas e promover um futuro sustentável."
+                                </blockquote>
+                            </div>
+                            <div class="solar_x456_testimonial_card" data-aos="fade-up" data-aos-delay="400">
+                                <div class="solar_x456_profile_info">
+                                    <h3 class="solar_x456_profile_name">Bill Gates</h3>
+                                    <p class="solar_x456_profile_title">Fundador da Microsoft</p>
+                                </div>
+                                <blockquote class="solar_x456_quote_text">
+                                    "A energia solar é uma das tecnologias mais promissoras para o futuro. A SoLares está na vanguarda dessa revolução."
+                                </blockquote>
+                            </div>
+                        </div>
+                    </main>
+                </section>
 
+        <!-- Seção de Parceiros Tecnológicos -->
+        <section id="partners" class="parceiros-section">
+            <div class="container">
+                <h2 class="titulo-principal" data-aos="fade-up">Nossos Parceiros</h2>
+                <br>
+                <br>
                 <div id="parceiros" class="grid-parceiros">
-                    <!-- Parceiro 1 -->
-                    <div class="card-parceiro">
+                    <div class="card-parceiro" data-aos="zoom-in">
                         <div class="logo-container">
-                            <img src="img/sesi.png" alt="Logo Parceiro 1" class="logo-parceiro">
+                            <img src="img/sesi.png" alt="Logo SESI" class="logo-parceiro">
                         </div>
                         <h3 class="nome-parceiro">Mostra SESI STEAM</h3>
-                        <p class="descricao-parceiro">A Mostra SESI STEAM é uma ação pedagógica de culminância dos trabalhos desenvolvidos pelos estudantes da Rede SESI-BA de Educação ao longo do ano letivo. </p> 
-                        <a href="#parceiros" onclick="SESI()" class="link-parceiro">Saiba mais</a>
+                        <p class="descricao-parceiro">Plataforma educacional que promove inovação e tecnologia através de projetos interdisciplinares.</p> 
+                        <a href="#" onclick="SESI()" class="link-parceiro">Saiba mais</a>
                     </div>
-    
-                    <!-- Parceiro 2 -->
-                    <div class="card-parceiro">
+                    <div class="card-parceiro" data-aos="zoom-in" data-aos-delay="200">
                         <div class="logo-container">
-                            <img src="img/senai1.png" alt="Logo Parceiro 2" class="logo-parceiro">
+                            <img src="img/senai1.png" alt="Logo SENAI" class="logo-parceiro">
                         </div>
                         <h3 class="nome-parceiro">SENAI</h3>
-                        <p class="descricao-parceiro">Serviço Nacional de Aprendizagem Industrial é uma instituição privada brasileira de interesse público, sem fins lucrativos, com personalidade jurídica de direito privado, estando fora da administração pública.</p>
-                        <a href="#parceiros" onclick="SENAI()" class="link-parceiro">Saiba mais</a>
+                        <p class="descricao-parceiro">Centro de formação profissional focado em tecnologia, inovação e desenvolvimento industrial.</p>
+                        <a href="#" onclick="SENAI()" class="link-parceiro">Saiba mais</a>
                     </div>
-                </div>
-    
-                <!-- Seção de Contato -->
-                <div class="secao-contato">
-                    <h3 class="titulo-contato">Quer ser nosso parceiro?</h3>
-                    <p class="texto-contato">Entre em contato conosco e saiba mais sobre nossas oportunidades de parceria</p>
-                    <a href="mailto:contato@exemplo.com" class="botao-contato">s.melo@ba.estudante.senai.br</a>
-                </div>
+                    
             </div>
         </section>
-        
-        
-    </main>
 
-    <footer>
+          <footer>
         <div class="footer-content">
             <div class="footer-section">
                 <h3>Sobre Nós</h3>
-                <p>Oferecemos soluções inovadoras em painéis fotovoltaicos, promovendo a sustentabilidade e a preservação ambiental.</p>
+                <p>Pioneiros em soluções fotovoltaicas inteligentes, combinando sustentabilidade e tecnologia de ponta.</p>
             </div>
             <div class="footer-section">
                 <h3>Links Rápidos</h3>
                 <a href="#home">Início</a>
+                <br>
                 <a href="#products">Produtos</a>
-                <a href="#about">Quem Somos?</a>
+                <br>
+                <a href="#about">Quem Somos</a>
             </div>
             <div class="footer-section">
                 <h3>Contato</h3>
@@ -257,57 +272,28 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; Solares. Todos os direitos reservados.</p>
+            <p>&copy; SoLares Project. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
-        const menuItems = [
-            { text: "Home", href: "#home" },
-            { text: "Quem Somos?", href: "#about" },
-            { text: "Produtos", href: "#products" },
-            { text: "Parceiros", href: "#parceiros" },
-            { text: "Contato", href:  "#contato" },
-        ];
-        
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
 
-        function createMenu() {
-            const navMenu = document.getElementById('nav-menu');
-            menuItems.forEach(item => {
-                const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.textContent = item.text;
-                a.href = item.href || '#';
-                if (item.onclick) {
-                    a.onclick = () => eval(item.onclick);
-                }
-                li.appendChild(a);
-                navMenu.appendChild(li);
-            });
+        function SENAI() {
+            window.open("https://www.senaibahia.com.br", "_blank");
         }
 
-        createMenu();
-
-        function redirectPage() {
-            window.location.href = "login.html";
-        }
-
-        function createAccount() {
-            window.location.href = "criarconta.html";
+        function SESI() {
+            window.open("https://www.escolasesiba.com.br/projetos/mostra-sesi-steam/", "_blank");
         }
 
         function error() {
             window.location.href = "construcao.html";
         }
-
-
-            function SENAI() {
-                window.open("https://www.senaibahia.com.br", "_blank");
-            }
-
-            function SESI() {
-                window.open("https://www.escolasesiba.com.br/projetos/mostra-sesi-steam/", "_blank");
-            }
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -317,7 +303,6 @@
                 });
             });
         });
-
     </script>
 </body>
 </html>
