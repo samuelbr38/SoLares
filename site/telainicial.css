@@ -134,7 +134,7 @@ nav ul li a:hover::after {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(0, 168, 232, 0.9), rgba(0, 119, 182, 0.9)), 
+    background: linear-gradient(135deg, rgba(0, 166, 232, 0.356), rgba(5, 168, 255, 0.055)), 
                 url('img/investimento.jpg');
     background-size: cover;
     background-position: center;
