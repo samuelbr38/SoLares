@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SoLares</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Bem-vindo de Volta</h2>
+        
+        <form id="form-login">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="E-mail" required>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="senha" placeholder="Senha" required>
+            </div>
+            
+            <div class="remember-me">
+                <input type="checkbox" id="remember">
+                <label for="remember">Lembrar meu login</label>
+            </div>
+            
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+        
+        <div class="login-footer">
+            <a href="/b0a1c2d3-e4f5-6a7b-8c9d-0e1f2a3b4c5d">Esqueceu a senha?</a> <!-- URL aleatória para recuperar senha -->
+            <a href="/f4e3d2c1-b6a5-48c7-9d8e-0f1e2d3c4b5a">Criar conta</a> <!-- URL aleatória para criar conta -->
+        </div>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notification-container" class="notification-container">
+        <!-- As notificações serão adicionadas aqui dinamicamente -->
+    </div>
+
+    <!-- Script para autenticação com Firebase -->
+    <script type="module">
+        import { fazerLogin } from "./js/auth.js";
+    
+        document.getElementById("form-login").addEventListener("submit", async (e) => {
+            e.preventDefault();
+    
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+    
+            try {
+                await fazerLogin(email, senha);
+                showNotification("Login realizado com sucesso! Redirecionando para o dashboard...", "success");
+            } catch (error) {
+                showNotification("Erro ao fazer login: " + error.message, "error");
+            }
+        });
+    </script>
+</body>
+</html>

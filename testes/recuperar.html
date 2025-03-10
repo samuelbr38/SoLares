@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Senha - SoLares</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Recuperar Senha</h2>
+        <form id="form-recuperar">
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="E-mail" required>
+            </div>
+            <button type="submit" class="btn-login">Enviar</button>
+        </form>
+        <div class="login-footer">
+            <a href="/9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d">Voltar</a> <!-- URL aleatória para login -->
+        </div>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notification-container" class="notification-container">
+        <!-- As notificações serão adicionadas aqui dinamicamente -->
+    </div>
+
+    <!-- Script para recuperação de senha -->
+    <script type="module">
+        // Importa as funções necessárias do auth.js
+        import { recuperarSenha, showNotification } from "./js/auth.js";
+
+        // Adiciona um listener para o formulário de recuperação de senha
+        document.getElementById("form-recuperar").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value;
+            try {
+                await recuperarSenha(email);
+                showNotification("E-mail de redefinição de senha enviado! Verifique sua caixa de entrada.", "success");
+            } catch (error) {
+                showNotification("Erro ao enviar e-mail: " + error.message, "error");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SoLares</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="light-theme">
+    <div class="dashboard-container">
+        <!-- Cabeçalho -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1>Painel do Cliente</h1>
+                <p id="user-name">Carregando...</p>
+            </div>
+            <div class="header-right">
+                <button id="theme-toggle" class="btn-theme">🌙 Tema Escuro</button>
+                <button onclick="logout()" class="btn-logout">🚪 Sair</button>
+            </div>
+        </header>
+
+        <!-- Seção de Informações do Cliente -->
+        <section class="user-info-section">
+            <h2>Informações do Cliente</h2>
+            <div class="user-info">
+                <p><strong>Nome:</strong> <span id="user-name-info">Carregando...</span></p>
+                <p><strong>E-mail:</strong> <span id="user-email">Carregando...</span></p>
+                <p><strong>Placa Solar:</strong> <span id="placa-solar-info">Carregando...</span></p>
+                <p><strong>Localização:</strong> <span id="localizacao-info">Carregando...</span></p>
+                <p><strong>Status:</strong> <span id="status-info">Carregando...</span></p>
+            </div>
+        </section>
+
+        <!-- Seção de Estatísticas -->
+        <section class="stats-section">
+            <h2>Estatísticas</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Produção de Energia</h3>
+                    <p>500 kWh</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Economia Mensal</h3>
+                    <p>R$ 300,00</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Redução de CO₂</h3>
+                    <p>200 kg</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Ações -->
+        <section class="actions-section">
+            <h2>Ações</h2>
+            <div class="actions-grid">
+                <button onclick="resetPassword()" class="btn-action">🔑 Redefinir Senha</button>
+                <button onclick="editarPerfil()" class="btn-action">✏️ Editar Perfil</button>
+                <button onclick="suporte()" class="btn-action">📞 Suporte</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notification-container" class="notification-container">
+        <!-- As notificações serão adicionadas aqui dinamicamente -->
+    </div>
+
+    <!-- Firebase CDN -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js"></script>
+
+    <!-- Script para dashboard -->
+    <script type="module">
+        // Importa as funções do Firebase
+        import { getAuth, signOut, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+        import { app } from "./js/auth.js";
+    
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+    
+        // Função para exibir notificações
+        function showNotification(message, type = "success") {
+            const notificationContainer = document.getElementById("notification-container");
+    
+            // Cria a notificação
+            const notification = document.createElement("div");
+            notification.classList.add("notification");
+            if (type === "error") {
+                notification.classList.add("error");
+            }
+    
+            // Adiciona a mensagem
+            const messageText = document.createElement("span");
+            messageText.innerText = message;
+            notification.appendChild(messageText);
+    
+            // Adiciona o botão de fechar
+            const closeBtn = document.createElement("button");
+            closeBtn.classList.add("close-btn");
+            closeBtn.innerHTML = "&times;"; // Ícone de "X"
+            closeBtn.onclick = () => {
+                notification.style.animation = "slideOut 0.5s ease-out";
+                setTimeout(() => {
+                    notification.remove();
+                }, 500); // Remove após a animação
+            };
+            notification.appendChild(closeBtn);
+    
+            // Adiciona a notificação ao container
+            notificationContainer.appendChild(notification);
+    
+            // Remove a notificação após 5 segundos
+            setTimeout(() => {
+                notification.style.animation = "slideOut 0.5s ease-out";
+                setTimeout(() => {
+                    notification.remove();
+                }, 500); // Remove após a animação
+            }, 5000);
+        }
+    
+        // Verifica se o usuário está autenticado
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                const docRef = doc(db, "usuarios", user.uid);
+                const docSnap = await getDoc(docRef);
+    
+                if (!docSnap.exists()) {
+                    // Se o documento não existir, cria um novo com os dados do usuário
+                    await setDoc(docRef, {
+                        nome: user.displayName || "Usuário",
+                        email: user.email,
+                        placaSolar: "Não informado",
+                        localizacao: "Não informado",
+                        status: "Ativo"
+                    });
+                }
+    
+                // Exibe as informações do usuário
+                const userData = docSnap.data();
+                document.getElementById("user-name").innerText = userData.nome;
+                document.getElementById("user-name-info").innerText = userData.nome;
+                document.getElementById("user-email").innerText = userData.email;
+    
+                // Exibe uma notificação de boas-vindas
+                showNotification(`Bem-vindo, ${userData.nome}!`, "success");
+            } else {
+                // Usuário não autenticado, redireciona para o login
+                window.location.href = "/9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d"; // Redireciona para o login (URL aleatória)
+            }
+        });
+    
+        // Função para logout
+        function logout() {
+            signOut(auth)
+                .then(() => {
+                    showNotification("Logout realizado com sucesso!", "success");
+                    window.location.href = "/9a8b7c6d-5e4f-3a2b-1c0d-9e8f7a6b5c4d"; // Redireciona para o login (URL aleatória)
+                })
+                .catch((error) => {
+                    showNotification("Erro ao fazer logout: " + error.message, "error");
+                });
+        }
+    
+        // Função para resetar senha
+        function resetPassword() {
+            const email = prompt("Digite seu e-mail para redefinir a senha:");
+            if (email) {
+                sendPasswordResetEmail(auth, email)
+                    .then(() => {
+                        showNotification("E-mail de redefinição de senha enviado!", "success");
+                    })
+                    .catch((error) => {
+                        showNotification("Erro ao enviar e-mail de redefinição: " + error.message, "error");
+                    });
+            }
+        }
+    
+        // Função para trocar tema
+        const themeToggle = document.getElementById("theme-toggle");
+        const body = document.body;
+    
+        themeToggle.addEventListener("click", () => {
+            if (body.classList.contains("light-theme")) {
+                body.classList.remove("light-theme");
+                body.classList.add("dark-theme");
+                themeToggle.innerText = "☀️ Tema Claro";
+            } else {
+                body.classList.remove("dark-theme");
+                body.classList.add("light-theme");
+                themeToggle.innerText = "🌙 Tema Escuro";
+            }
+        });
+    
+        // Função para editar perfil
+        function editarPerfil() {
+            alert("Funcionalidade de edição de perfil em desenvolvimento!");
+        }
+    
+        // Função para suporte
+        function suporte() {
+            alert("Entre em contato com o suporte: samuelcontatobr@gmail");
+        }
+    </script>
+</body>
+</html>
