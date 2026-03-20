@@ -1,107 +1,114 @@
 #include <LiquidCrystal_I2C.h>
 
-#define TRIG1 22
-#define ECHO1 23
-#define TRIG2 24
-#define ECHO2 25
+#define TRIG 7
+#define ECHO 6
 
-#define ENA 5
-#define IN1 6
-#define IN2 7
+#define IN1 8
+#define IN2 9
+#define ENA 10
+
+#define SENSOR_NIVEL_SEGURANCA 22
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-float nivel1 = 0;
-float nivel2 = 0;
+float nivel;
+int pwmBomba = 0;
 
-float alturaMax = 30.0;
+float setpoint = 50.0;
+float histerese = 5.0;
 
-float ligaBomba = 40.0;
-float desligaBomba = 80.0;
+bool estadoBomba = false;
 
-float minimoSeguro = 20.0;
-
-long readUltrasonic(int trig, int echo) {
-  digitalWrite(trig, LOW);
+float lerNivel() {
+  digitalWrite(TRIG, LOW);
   delayMicroseconds(2);
-  digitalWrite(trig, HIGH);
+  digitalWrite(TRIG, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trig, LOW);
-  long duration = pulseIn(echo, HIGH);
-  return duration * 0.034 / 2;
-}
+  digitalWrite(TRIG, LOW);
 
-float calculaNivel(long distancia) {
-  float nivel = ((alturaMax - distancia) / alturaMax) * 100.0;
-  if (nivel > 100) nivel = 100;
-  if (nivel < 0) nivel = 0;
-  return nivel;
+  long duracao = pulseIn(ECHO, HIGH);
+  float distancia = duracao * 0.034 / 2.0;
+
+  float alturaTanque = 100.0;
+  float nivelCalculado = alturaTanque - distancia;
+
+  if (nivelCalculado < 0) nivelCalculado = 0;
+  if (nivelCalculado > alturaTanque) nivelCalculado = alturaTanque;
+
+  return (nivelCalculado / alturaTanque) * 100.0;
 }
 
 void setup() {
-  pinMode(TRIG1, OUTPUT);
-  pinMode(ECHO1, INPUT);
-  pinMode(TRIG2, OUTPUT);
-  pinMode(ECHO2, INPUT);
+  pinMode(TRIG, OUTPUT);
+  pinMode(ECHO, INPUT);
 
-  pinMode(ENA, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+
+  pinMode(SENSOR_NIVEL_SEGURANCA, INPUT_PULLUP);
 
   lcd.init();
   lcd.backlight();
-
-  digitalWrite(IN1, HIGH);
-  digitalWrite(IN2, LOW);
 }
 
 void loop() {
-  long dist1 = readUltrasonic(TRIG1, ECHO1);
-  long dist2 = readUltrasonic(TRIG2, ECHO2);
+  nivel = lerNivel();
 
-  nivel1 = calculaNivel(dist1);
-  nivel2 = calculaNivel(dist2);
+  bool tanqueSeguro = digitalRead(SENSOR_NIVEL_SEGURANCA);
 
-  int velocidade = map(nivel1, 0, 100, 255, 80);
+  if (!tanqueSeguro) {
+    estadoBomba = false;
+    pwmBomba = 0;
 
-  bool bombaLigada = false;
-
-  if (nivel2 < ligaBomba) {
-    bombaLigada = true;
-  }
-
-  if (nivel2 > desligaBomba) {
-    bombaLigada = false;
-  }
-
-  if (nivel1 < minimoSeguro) {
-    bombaLigada = false;
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
     analogWrite(ENA, 0);
+
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("FALTA AGUA T1");
+    lcd.print("FALTA AGUA!");
     lcd.setCursor(0, 1);
     lcd.print("BOMBA OFF");
-    delay(1000);
+    delay(500);
     return;
   }
 
-  if (bombaLigada) {
-    analogWrite(ENA, velocidade);
+  if (nivel < (setpoint - histerese)) {
+    estadoBomba = true;
+  }
+
+  if (nivel > (setpoint + histerese)) {
+    estadoBomba = false;
+  }
+
+  if (estadoBomba) {
+    pwmBomba = map(nivel, 0, setpoint, 255, 100);
+    pwmBomba = constrain(pwmBomba, 100, 255);
+
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, pwmBomba);
   } else {
+    pwmBomba = 0;
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
     analogWrite(ENA, 0);
   }
 
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print("T1:");
-  lcd.print(nivel1);
+  lcd.print("Nivel:");
+  lcd.print(nivel);
   lcd.print("%");
 
   lcd.setCursor(0, 1);
-  lcd.print("T2:");
-  lcd.print(nivel2);
-  lcd.print("%");
+  if (estadoBomba) {
+    lcd.print("Bomba ON ");
+    lcd.print(pwmBomba);
+  } else {
+    lcd.print("Bomba OFF");
+  }
 
-  delay(1000);
+  delay(500);
 }
