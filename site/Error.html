@@ -50,6 +50,8 @@ void setup() {
 
   lcd.init();
   lcd.backlight();
+
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -70,6 +72,8 @@ void loop() {
     lcd.print("FALTA AGUA!");
     lcd.setCursor(0, 1);
     lcd.print("BOMBA OFF");
+
+    Serial.println("ALERTA: FALTA AGUA NO TANQUE 1");
     delay(500);
     return;
   }
@@ -108,6 +112,27 @@ void loop() {
     lcd.print(pwmBomba);
   } else {
     lcd.print("Bomba OFF");
+  }
+
+  Serial.print("Nivel: ");
+  Serial.print(nivel);
+  Serial.print(" % | ");
+
+  Serial.print("Bomba: ");
+  if (estadoBomba) {
+    Serial.print("ON");
+  } else {
+    Serial.print("OFF");
+  }
+
+  Serial.print(" | PWM: ");
+  Serial.print(pwmBomba);
+
+  Serial.print(" | Seguranca: ");
+  if (tanqueSeguro) {
+    Serial.println("OK");
+  } else {
+    Serial.println("SEM AGUA");
   }
 
   delay(500);
