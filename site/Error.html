@@ -1,49 +1,40 @@
-#include <LiquidCrystal.h>
+#include <LiquidCrystal_I2C.h>
 
-// LCD
-LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
-
-// Ultrassônico
 #define TRIG1 22
 #define ECHO1 23
 #define TRIG2 24
 #define ECHO2 25
 
-// Ponte H
+#define ENA 5
 #define IN1 6
 #define IN2 7
-#define ENA 5
 
-// Parâmetros dos tanques (em cm)
-float alturaTanque = 30.0;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Histerese
-float nivelMinTanque1 = 5.0;   // mínimo seguro
-float nivelRetorno = 10.0;     // nível para voltar a ligar
+float nivel1 = 0;
+float nivel2 = 0;
 
-float nivelLigaTanque2 = 20.0;
-float nivelDesligaTanque2 = 5.0;
+float alturaMax = 30.0;
 
-bool bloqueioSeguranca = false;
+float ligaBomba = 40.0;
+float desligaBomba = 80.0;
 
-long lerUltrassom(int trig, int echo) {
+float minimoSeguro = 20.0;
+
+long readUltrasonic(int trig, int echo) {
   digitalWrite(trig, LOW);
   delayMicroseconds(2);
-  
   digitalWrite(trig, HIGH);
   delayMicroseconds(10);
   digitalWrite(trig, LOW);
-
-  long duracao = pulseIn(echo, HIGH);
-  long distancia = duracao * 0.034 / 2;
-
-  return distancia;
+  long duration = pulseIn(echo, HIGH);
+  return duration * 0.034 / 2;
 }
 
-float calcularNivel(long distancia) {
-  float nivel = alturaTanque - distancia;
+float calculaNivel(long distancia) {
+  float nivel = ((alturaMax - distancia) / alturaMax) * 100.0;
+  if (nivel > 100) nivel = 100;
   if (nivel < 0) nivel = 0;
-  if (nivel > alturaTanque) nivel = alturaTanque;
   return nivel;
 }
 
@@ -53,80 +44,64 @@ void setup() {
   pinMode(TRIG2, OUTPUT);
   pinMode(ECHO2, INPUT);
 
+  pinMode(ENA, OUTPUT);
   pinMode(IN1, OUTPUT);
   pinMode(IN2, OUTPUT);
-  pinMode(ENA, OUTPUT);
 
-  lcd.begin(16, 2);
-  lcd.print("Sistema Agua");
-  delay(2000);
-  lcd.clear();
+  lcd.init();
+  lcd.backlight();
+
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
 }
 
 void loop() {
-  long dist1 = lerUltrassom(TRIG1, ECHO1);
-  long dist2 = lerUltrassom(TRIG2, ECHO2);
+  long dist1 = readUltrasonic(TRIG1, ECHO1);
+  long dist2 = readUltrasonic(TRIG2, ECHO2);
 
-  float nivel1 = calcularNivel(dist1);
-  float nivel2 = calcularNivel(dist2);
+  nivel1 = calculaNivel(dist1);
+  nivel2 = calculaNivel(dist2);
 
-  // --- SEGURANÇA (Tanque 1) ---
-  if (nivel1 < nivelMinTanque1) {
-    bloqueioSeguranca = true;
+  int velocidade = map(nivel1, 0, 100, 255, 80);
+
+  bool bombaLigada = false;
+
+  if (nivel2 < ligaBomba) {
+    bombaLigada = true;
   }
 
-  if (nivel1 > nivelRetorno) {
-    bloqueioSeguranca = false;
+  if (nivel2 > desligaBomba) {
+    bombaLigada = false;
   }
 
-  // --- CONTROLE DA BOMBA ---
-  int velocidade = 0;
-
-  if (!bloqueioSeguranca) {
-    if (nivel2 < nivelLigaTanque2) {
-      // velocidade proporcional
-      velocidade = map(nivel2, 0, alturaTanque, 255, 100);
-    }
-
-    if (nivel2 <= nivelDesligaTanque2) {
-      velocidade = 0;
-    }
-  } else {
-    velocidade = 0;
+  if (nivel1 < minimoSeguro) {
+    bombaLigada = false;
+    analogWrite(ENA, 0);
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("FALTA AGUA T1");
+    lcd.setCursor(0, 1);
+    lcd.print("BOMBA OFF");
+    delay(1000);
+    return;
   }
 
-  // Aciona ponte H
-  if (velocidade > 0) {
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
+  if (bombaLigada) {
     analogWrite(ENA, velocidade);
   } else {
-    digitalWrite(IN1, LOW);
-    digitalWrite(IN2, LOW);
     analogWrite(ENA, 0);
   }
 
-  // --- LCD ---
+  lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("T1:");
   lcd.print(nivel1);
-  lcd.print("cm ");
+  lcd.print("%");
 
   lcd.setCursor(0, 1);
   lcd.print("T2:");
   lcd.print(nivel2);
-  lcd.print("cm ");
+  lcd.print("%");
 
-  if (bloqueioSeguranca) {
-    lcd.setCursor(10, 1);
-    lcd.print("ALERTA");
-  } else if (velocidade > 0) {
-    lcd.setCursor(10, 1);
-    lcd.print("BOMBA");
-  } else {
-    lcd.setCursor(10, 1);
-    lcd.print("PARADA");
-  }
-
-  delay(500);
+  delay(1000);
 }
