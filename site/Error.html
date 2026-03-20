@@ -11,7 +11,7 @@
 
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-float nivel;
+float nivel = 0;
 int pwmBomba = 0;
 
 float setpoint = 50.0;
@@ -26,10 +26,17 @@ float lerNivel() {
   delayMicroseconds(10);
   digitalWrite(TRIG, LOW);
 
-  long duracao = pulseIn(ECHO, HIGH);
+  long duracao = pulseIn(ECHO, HIGH, 30000);
+
+  if (duracao == 0) return nivel;
+
   float distancia = duracao * 0.034 / 2.0;
 
-  float alturaTanque = 100.0;
+  if (distancia > 10.0) {
+    distancia = 10.0;
+  }
+
+  float alturaTanque = 10.0;
   float nivelCalculado = alturaTanque - distancia;
 
   if (nivelCalculado < 0) nivelCalculado = 0;
