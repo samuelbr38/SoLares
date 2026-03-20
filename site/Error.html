@@ -1,100 +1,132 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página não encontrada</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            line-height: 1.5;
-            color: #24292e;
-            background-color: #f6f8fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .container {
-            text-align: center;
-            max-width: 450px;
-            padding: 40px;
-        }
-        .icon {
-            margin-bottom: 20px;
-        }
-        .icon svg {
-            width: 50px;
-            height: 50px;
-            fill: #24292e;
-        }
-        h1 {
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: -0.5px;
-            margin-bottom: 15px;
-        }
-        p {
-            font-size: 16px;
-            color: #586069;
-            margin-bottom: 15px;
-        }
-        .divider {
-            border-top: 1px solid #e1e4e8;
-            margin: 20px 0;
-        }
-        .footer {
-            font-size: 12px;
-            color: #586069;
-        }
-        .button {
-            display: inline-block;
-            padding: 6px 12px;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 20px;
-            color: #24292e;
-            background-color: #fafbfc;
-            border: 1px solid rgba(27,31,35,0.15);
-            border-radius: 6px;
-            text-decoration: none;
-            transition: 0.2s ease;
-        }
-        .button:hover {
-            background-color: #f3f4f6;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="icon">
-            <svg viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
-            </svg>
-        </div>
-        <h1>Página não encontrada</h1>
-        <p>Desculpe, não conseguimos encontrar a página que você está procurando.</p>
-        <p>Você pode ter digitado o endereço incorretamente ou a página pode ter sido movida.</p>
-        <a href="#" onclick="redirectPage2()" class="button">Voltar para a página inicial</a>
-        <div class="divider"></div>
-        <p class="footer">Se você acredita que isso é um erro, por favor <a href="#" onclick="redirectPage1()">entre em contato</a> com o suporte.</p>
-    </div>
+#include <LiquidCrystal.h>
 
-	
+// LCD
+LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
 
-</body>
-</html>
+// Ultrassônico
+#define TRIG1 22
+#define ECHO1 23
+#define TRIG2 24
+#define ECHO2 25
 
-<script>
+// Ponte H
+#define IN1 6
+#define IN2 7
+#define ENA 5
 
-function redirectPage1() {
-            window.location.href = "manutencao.html";
-        }
+// Parâmetros dos tanques (em cm)
+float alturaTanque = 30.0;
 
-		function redirectPage2() {
-            window.location.href = "telainicial.html";
-        }
+// Histerese
+float nivelMinTanque1 = 5.0;   // mínimo seguro
+float nivelRetorno = 10.0;     // nível para voltar a ligar
 
-</script>
+float nivelLigaTanque2 = 20.0;
+float nivelDesligaTanque2 = 5.0;
+
+bool bloqueioSeguranca = false;
+
+long lerUltrassom(int trig, int echo) {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+
+  long duracao = pulseIn(echo, HIGH);
+  long distancia = duracao * 0.034 / 2;
+
+  return distancia;
+}
+
+float calcularNivel(long distancia) {
+  float nivel = alturaTanque - distancia;
+  if (nivel < 0) nivel = 0;
+  if (nivel > alturaTanque) nivel = alturaTanque;
+  return nivel;
+}
+
+void setup() {
+  pinMode(TRIG1, OUTPUT);
+  pinMode(ECHO1, INPUT);
+  pinMode(TRIG2, OUTPUT);
+  pinMode(ECHO2, INPUT);
+
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(ENA, OUTPUT);
+
+  lcd.begin(16, 2);
+  lcd.print("Sistema Agua");
+  delay(2000);
+  lcd.clear();
+}
+
+void loop() {
+  long dist1 = lerUltrassom(TRIG1, ECHO1);
+  long dist2 = lerUltrassom(TRIG2, ECHO2);
+
+  float nivel1 = calcularNivel(dist1);
+  float nivel2 = calcularNivel(dist2);
+
+  // --- SEGURANÇA (Tanque 1) ---
+  if (nivel1 < nivelMinTanque1) {
+    bloqueioSeguranca = true;
+  }
+
+  if (nivel1 > nivelRetorno) {
+    bloqueioSeguranca = false;
+  }
+
+  // --- CONTROLE DA BOMBA ---
+  int velocidade = 0;
+
+  if (!bloqueioSeguranca) {
+    if (nivel2 < nivelLigaTanque2) {
+      // velocidade proporcional
+      velocidade = map(nivel2, 0, alturaTanque, 255, 100);
+    }
+
+    if (nivel2 <= nivelDesligaTanque2) {
+      velocidade = 0;
+    }
+  } else {
+    velocidade = 0;
+  }
+
+  // Aciona ponte H
+  if (velocidade > 0) {
+    digitalWrite(IN1, HIGH);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, velocidade);
+  } else {
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, LOW);
+    analogWrite(ENA, 0);
+  }
+
+  // --- LCD ---
+  lcd.setCursor(0, 0);
+  lcd.print("T1:");
+  lcd.print(nivel1);
+  lcd.print("cm ");
+
+  lcd.setCursor(0, 1);
+  lcd.print("T2:");
+  lcd.print(nivel2);
+  lcd.print("cm ");
+
+  if (bloqueioSeguranca) {
+    lcd.setCursor(10, 1);
+    lcd.print("ALERTA");
+  } else if (velocidade > 0) {
+    lcd.setCursor(10, 1);
+    lcd.print("BOMBA");
+  } else {
+    lcd.setCursor(10, 1);
+    lcd.print("PARADA");
+  }
+
+  delay(500);
+}
