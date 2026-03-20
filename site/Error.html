@@ -32,9 +32,7 @@ float lerNivel() {
 
   float distancia = duracao * 0.034 / 2.0;
 
-  if (distancia > 10.0) {
-    distancia = 10.0;
-  }
+  if (distancia > 10.0) distancia = 10.0;
 
   float alturaTanque = 10.0;
   float nivelCalculado = alturaTanque - distancia;
@@ -53,7 +51,7 @@ void setup() {
   pinMode(IN2, OUTPUT);
   pinMode(ENA, OUTPUT);
 
-  pinMode(SENSOR_NIVEL_SEGURANCA, INPUT_PULLUP);
+  pinMode(SENSOR_NIVEL_SEGURANCA, INPUT);
 
   lcd.init();
   lcd.backlight();
@@ -85,20 +83,15 @@ void loop() {
     return;
   }
 
-  if (nivel < (setpoint - histerese)) {
-    estadoBomba = true;
-  }
-
-  if (nivel > (setpoint + histerese)) {
-    estadoBomba = false;
-  }
+  if (nivel < (setpoint - histerese)) estadoBomba = true;
+  if (nivel > (setpoint + histerese)) estadoBomba = false;
 
   if (estadoBomba) {
     pwmBomba = map(nivel, 0, setpoint, 255, 100);
     pwmBomba = constrain(pwmBomba, 100, 255);
 
-    digitalWrite(IN1, HIGH);
-    digitalWrite(IN2, LOW);
+    digitalWrite(IN1, LOW);
+    digitalWrite(IN2, HIGH);
     analogWrite(ENA, pwmBomba);
   } else {
     pwmBomba = 0;
@@ -126,21 +119,13 @@ void loop() {
   Serial.print(" % | ");
 
   Serial.print("Bomba: ");
-  if (estadoBomba) {
-    Serial.print("ON");
-  } else {
-    Serial.print("OFF");
-  }
+  Serial.print(estadoBomba ? "ON" : "OFF");
 
   Serial.print(" | PWM: ");
   Serial.print(pwmBomba);
 
   Serial.print(" | Seguranca: ");
-  if (tanqueSeguro) {
-    Serial.println("OK");
-  } else {
-    Serial.println("SEM AGUA");
-  }
+  Serial.println(tanqueSeguro ? "OK" : "SEM AGUA");
 
   delay(500);
 }
